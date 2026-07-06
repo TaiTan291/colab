@@ -23,7 +23,8 @@
           projectRootFile = "flake.nix";
           programs = {
             nixfmt.enable = true; # Nix用フォーマッター
-            ruff.enable = true; # Python用フォーマッター
+            ruff.format = true;   # フォーマット機能を有効化
+            ruff.check = true;    # 構文チェック(Linter)も有効化する場合
           };
         };
 
