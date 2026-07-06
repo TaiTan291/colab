@@ -16,15 +16,13 @@
         inputs.treefmt-nix.flakeModule
       ];
 
-      # perSystem 内でシステムごとの環境を統合して評価・生成する
-      perSystem = { config, pkgs, ... }: {
+      perSystem = { pkgs, ... }: {
         # treefmt-nix の設定
         treefmt.config = {
           projectRootFile = "flake.nix";
           programs = {
-            nixfmt.enable = true; # Nix用フォーマッター
-            ruff.format = true;   # フォーマット機能を有効化
-            ruff.check = true;    # 構文チェック(Linter)も有効化する場合
+            nixfmt.enable = true;
+            ruff.format = true;
           };
         };
 
@@ -33,11 +31,10 @@
             python313
             python313Packages.jupytext
             uv
-            # treefmt のラッパーバイナリを追加
-            config.treefmt.build.wrapper
+            # config を経由せず、pkgs の仕組みから直接 treefmt を参照
+            treefmt
           ];
 
-          # NixOS提供のPythonを使用するため、uv自身によるPythonバイナリのダウンロードを無効化
           env = {
             UV_PYTHON_DOWNLOADS = "never";
           };
